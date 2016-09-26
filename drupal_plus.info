@@ -1,0 +1,10 @@
+name = "Drupal Plus (Drupal+)"
+description = "Provides with handy drupal functions and features"
+core = 7.x
+
+; Version
+version = 7.x-1.0-beta1
+
+; Dependencies
+dependencies[] = ctools
+dependencies[] = php_plus

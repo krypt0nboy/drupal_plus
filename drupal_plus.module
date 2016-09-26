@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * The module's name.
+ */
+define('DRUPAL_PLUS', 'drupal_plus');
+
+/**
+ * The module's path.
+ */
+define('DRUPAL_PLUS_PATH', drupal_get_path('module', 'drupal_plus'));
+
+/**
+ * The module's cache table.
+ */
+define('DRUPAL_PLUS_DB__CACHE', 'cache_drupal_plus');
+
+module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.cache');
+module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.functions');
+module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.invoke');
+module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.hooks');
+
+/**
+ * Implements hook_menu().
+ */
+function drupal_plus_menu() {
+  $items                                  = array();
+  $items['admin/config/drupal-plus']      = array(
+    'title'            => 'Drupal plus',
+    'description'      => 'Drupal plus',
+    'type'             => MENU_NORMAL_ITEM,
+    'page callback'    => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file path'        => drupal_get_path('module', 'system'),
+    'file'             => 'system.admin.inc',
+  );
+  $items['admin/config/drupal-plus/test'] = array(
+    'title'            => 'Drupal plus test page.',
+    'type'             => MENU_NORMAL_ITEM,
+    'page callback'    => 'drupal_plus_test',
+    'access arguments' => array('access site configuration'),
+  );
+
+  return $items;
+}
+
+/**
+ * Test function.
+ */
+function drupal_plus_test() {
+
+}
+
+/**
+ * Implements hook_admin_menu_cache_info().
+ */
+function drupal_plus_admin_menu_cache_info() {
+  $caches[DRUPAL_PLUS] = array(
+    'title'    => t('Drupal plus'),
+    'callback' => 'drupal_plus_cc_all',
+  );
+
+  return $caches;
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function drupal_plus_flush_caches() {
+  return array(DRUPAL_PLUS_DB__CACHE);
+}

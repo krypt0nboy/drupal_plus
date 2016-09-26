@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function drupal_plus_schema() {
+  $schema                        = array();
+  $schema[DRUPAL_PLUS_DB__CACHE] = drupal_get_schema_unprocessed('system', 'cache');
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function drupal_plus_install() {
+  variable_set('dp_cache_enabled', TRUE);
+  variable_set('drupal_plus_cache_enabled', TRUE);
+}
