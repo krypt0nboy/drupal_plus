@@ -19,6 +19,7 @@ module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.cache');
 module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.functions');
 module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.invoke');
 module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.hooks');
+module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.registry');
 
 /**
  * Implements hook_menu().

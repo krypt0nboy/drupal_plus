@@ -164,10 +164,50 @@ function drupal_plus_cache_cascade_clear_get_info($bin, $cid) {
 function module_get_info($module) {
   $modules = &drupal_static(__FUNCTION__, array());
   if (!in_array($module, $modules)) {
-    $parsed_info = module_parsed_info_file($module);
+    $info           = system_get_info('module', $module);
+    $buffer         = array();
+    $buffer['path'] = drupal_get_path('module', $module);
+    $buffer += $info;
+    $modules[$module] = $buffer;
   }
 
   return $modules[$module];
+}
+
+/**
+ * Retrieves any module that implement a drupal plus feature in its .info file.
+ *
+ * @param null|string $module
+ *   The module's name.
+ *
+ * @return array
+ */
+function drupal_plus_implementations($module = NULL) {
+  $cid  = 'implementations';
+  $hook = 'implementations';
+  // Cached since used very often
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast[$hook] = &drupal_static(__FUNCTION__);
+  }
+  $implementations = &$drupal_static_fast[$hook];
+  if (empty($implementations)) {
+    if ($cache = drupal_plus_cache_get($cid)) {
+      $implementations = $cache->data;
+    }
+    else {
+      $modules_info    = system_get_info('module');
+      $implementations = array();
+      foreach ($modules_info as $name => $info) {
+        if (!empty($info['drupal_plus'])) {
+          $implementations[$module] = $info['drupal_plus'];
+        }
+      }
+      drupal_plus_cache_set($cid, $implementations);
+    }
+  }
+
+  return isset($module) ? $implementations[$module] : $implementations;
 }
 
 /**

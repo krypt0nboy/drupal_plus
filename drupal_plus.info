@@ -8,3 +8,6 @@ version = 7.x-1.0-beta1
 ; Dependencies
 dependencies[] = ctools
 dependencies[] = php_plus
+
+; Drupal +
+drupal_plus[auto_registr][] = *

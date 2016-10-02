@@ -246,3 +246,23 @@ function module_class_inc($module, $class) {
     require_once $classes[$class]['file'];
   }
 }
+
+/**
+ * Registers a class in Drupal's registry.
+ *
+ * @param string $class_name
+ *   The class name.
+ * @param string $class_file
+ *   The file containing the class.
+ *
+ * @return bool
+ *   Returns TRUE if the class was successfully registered.
+ */
+function register_class($class_name, $class_file) {
+  $check = _registry_check_code('class', $class_name);
+  if (!$check) {
+    if (file_exists($class_file)) {
+      
+    }
+  }
+}
