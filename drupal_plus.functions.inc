@@ -262,7 +262,24 @@ function register_class($class_name, $class_file) {
   $check = _registry_check_code('class', $class_name);
   if (!$check) {
     if (file_exists($class_file)) {
-      
+
     }
   }
+}
+
+/**
+ * Returns an additional setting for a node_type.
+ *
+ * @param string $name
+ *   The setting name.
+ * @param string $node_type
+ *   The node_type name.
+ *
+ * @return mixed
+ */
+function node_type_additional_setting($name, $node_type) {
+  $var_name = concat($name, $node_type);
+  $var      = variable_get($var_name);
+
+  return is_null($var) ? NULL : $var;
 }

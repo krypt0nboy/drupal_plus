@@ -20,6 +20,7 @@ module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.functions');
 module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.invoke');
 module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.hooks');
 module_load_include('inc', DRUPAL_PLUS, 'drupal_plus.registry');
+module_load_include('inc', DRUPAL_PLUS, 'includes/drupal_plus.system');
 
 /**
  * Implements hook_menu().
@@ -69,4 +70,53 @@ function drupal_plus_admin_menu_cache_info() {
  */
 function drupal_plus_flush_caches() {
   return array(DRUPAL_PLUS_DB__CACHE);
+}
+
+/**
+ * Implements hook_permission_tpl_info().
+ */
+function drupal_plus_permission_tpl_info() {
+  $info                              = array();
+  $info['administer_module']         = array(
+    'tpl'   => 'administer.%module%',
+    'group' => 'system'
+  );
+  $info['add_any_bundle_entity']     = array(
+    'tpl'   => 'add.any.%bundle%.%entity_type%',
+    'group' => 'entities'
+  );
+  $info['edit_any_bundle_entity']    = array(
+    'tpl'   => 'edit.any.%bundle%.%entity_type%',
+    'group' => 'entities'
+  );
+  $info['edit_own_bundle_entity']    = array(
+    'tpl'   => 'edit.own.%bundle%.%entity_type%',
+    'group' => 'entities'
+  );
+  $info['delete_any_bundle_entity']  = array(
+    'tpl'   => 'delete.own.%bundle%.%entity_type%',
+    'group' => 'entities'
+  );
+  $info['delete_own_bundle_entity']  = array(
+    'tpl'   => 'delete.own.%bundle%.%entity_type%',
+    'group' => 'entities'
+  );
+  $info['view_any_bundle_entity']    = array(
+    'tpl'   => 'view.any.%bundle%.%entity_type%',
+    'group' => 'entities'
+  );
+  $info['view_own_bundle_entity']    = array(
+    'tpl'   => 'view.own.%bundle%.%entity_type%',
+    'group' => 'entities'
+  );
+  $info['publish_any_bundle_entity'] = array(
+    'tpl'   => 'publish.any.%bundle%.%entity_type%',
+    'group' => 'entities'
+  );
+  $info['publish_own_bundle_entity'] = array(
+    'tpl'   => 'publish.own.%bundle%.%entity_type%',
+    'group' => 'entities'
+  );
+
+  return $info;
 }

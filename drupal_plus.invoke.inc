@@ -232,3 +232,44 @@ function _cache_clear($hook) {
     }
   }
 }
+
+/**
+ * Retrieves permission tpl info.
+ *
+ * @param null|string $name
+ *   The permission name.
+ *
+ * @return array
+ *
+ * @see hook_permission_tpl_info().
+ */
+function drupal_plus_permission_tpl_get_info($name = NULL) {
+  $cid  = 'permission_tpl';
+  $hook = 'permission_tpl_info';
+  // Cached since used very often
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast[$hook] = &drupal_static(__FUNCTION__);
+  }
+  $permission_tpl_info = &$drupal_static_fast[$hook];
+  if (empty($permission_tpl_info)) {
+    if ($cache = drupal_plus_cache_get($cid)) {
+      $permission_tpl_info = $cache->data;
+    }
+    else {
+      $invoke = invoke_and_alter($cid);
+      $buffer = array();
+      foreach ($invoke as $permission => $info) {
+        $tpl                 = $info['tpl'];
+        $info['components']  = !empty($info['components']) ? $info['components'] : array();
+        $info['title']       = !empty($info['title']) ? $info['title'] : permission_tpl2title($tpl);
+        $info['description'] = !empty($info['description']) ? $info['description'] : permission_tpl2description($tpl);
+        $info['components'] += unprocessed_permission_tpl_xtract($tpl);
+      }
+      $permission_tpl_info = $buffer;
+      drupal_plus_cache_set($cid, $permission_tpl_info);
+    }
+  }
+
+  return isset($name) ? $permission_tpl_info[$name] : $permission_tpl_info;
+}

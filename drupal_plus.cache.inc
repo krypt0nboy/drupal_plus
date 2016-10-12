@@ -47,7 +47,9 @@ function drupal_plus_cc_all() {
  */
 function generic_cache_set($table, $cid, $data, $expire = CACHE_PERMANENT) {
   $cache_enabled = variable_get('dp_cache_enabled');
-  list($cache, $expires) = array_values(drupal_plus_cache_get_info($table, $cid));
+  $cache_info    = drupal_plus_cache_get_info($table, $cid);
+  $cache         = $cache_info['cache'];
+  $expires       = $cache_info['expires'];
   if ($cache_enabled && $cache) {
     cache_set($cid, $data, $table, isset($expires) ? $expires : $expire);
   }
@@ -149,6 +151,7 @@ function drupal_plus_cache_info() {
   $info[DRUPAL_PLUS_DB__CACHE]['module_info']     = array();
   $info[DRUPAL_PLUS_DB__CACHE]['modules_classes'] = array();
   $info[DRUPAL_PLUS_DB__CACHE]['implementations'] = array();
+  $info[DRUPAL_PLUS_DB__CACHE]['permission_tpl']  = array();
 
   return $info;
 }
